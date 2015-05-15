@@ -62,20 +62,6 @@ router.get('/search', function(req, res, next) {
       });
 });
 
-//router.get('/search/:name', function(req, res, next) {
-//    console.log("Request body: ",req);
-//    assignments.find({name: new RegExp(req.params.name, 'i')},
-//        null,
-//        {
-//            sort: {
-//                name: req.query.sortOrder
-//            }
-//        },
-//        function (err, assignment) {
-//            if (err) return next(err);
-//            res.json(assignment);
-//        });
-//});
 
 console.log('assignments route loaded');
 module.exports = router;

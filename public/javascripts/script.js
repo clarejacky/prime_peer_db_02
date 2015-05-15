@@ -12,7 +12,7 @@ var $dateEditor;
 var $editPanel;
 var $editorSubmit;
 
-var order;
+var order = 1;
 var searchName;
 var dateOne;
 var dateTwo;
@@ -235,9 +235,6 @@ function assignClicks(){
             //sort(name, order);
         });
 
-        if(order !== 1 || order !== -1) {
-            order = 1;
-        }
         dateOne = $('#date_start').val();
         dateTwo = $('#date_end').val();
         if(dateOne == "" & dateTwo == ""){
