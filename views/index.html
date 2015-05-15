@@ -28,7 +28,9 @@
     <h1>List of assignments</h1>
 
     <p>Click "Delete" to remove an entry. Click "Edit" to change it's properties. To add a new entry, click "Create" in the navigation.</p>
-    <div class="sort"></div>
+    <div class="sort">
+        <label for='searchField'>Search by Name: </label><input id='searchField' type='text'><button class='btn-desc' data-id='-1'>Sort Descending</button><button class='btn-asc' data-id='1'>Sort Ascending</button>
+    </div>
     <div class="row">
     <div class="col js-assignments"></div>
     <div class="col editPanel js-editPanel hidden">

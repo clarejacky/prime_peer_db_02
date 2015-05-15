@@ -11,6 +11,8 @@ var $dateEditor;
 var $editPanel;
 var $editorSubmit;
 
+var order;
+
 $(document).ready(function(){
     $container = $('.js-assignments');
     $editPanel = $('.js-editPanel');
@@ -24,7 +26,6 @@ $(document).ready(function(){
 });
 
 function getData(){
-    $('.sort').append("<button class='btn-desc' data-id='-1'>Sort Descending</button><button class='btn-asc' data-id='1'>Sort Ascending</button>");
 
     $.ajax({
         url: '/assignments',
@@ -194,7 +195,21 @@ function assignClicks(){
     });
 
     $('body').on('click', '.btn-desc', function(){
-        sort();
+         order = -1;
+        var name = $('#searchField').val();
+        if(name ==""){
+            name= {};
+        }
+         sort(name, order);
+    });
+
+    $('body').on('click', '.btn-asc', function(){
+        order = 1;
+        var name = $('#searchField').val();
+        if(name == ""){
+            name ={};
+        }
+        sort(name, order);
     });
 }
 
@@ -216,12 +231,12 @@ function clearEditor(){
     $editPanel.slideUp().delay().removeClass('change');
 }
 
-function sort(){
+function sort(name, order){
     $.ajax({
         url: '/assignments/search',
         method: 'get',
         dataType: 'json',
-        data: {sortOrder: -1},
+        data: {name:name, sortOrder: order},
         success: function(data, textStatus, jqXHR){
             // clear form
             clearData();
