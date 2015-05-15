@@ -43,7 +43,8 @@ router.delete('/:id', function(req, res, next) {
 });
 
 router.get('/search', function(req, res, next) {
-  assignments.find({name: new RegExp(req.query.name, 'i')}, null,
+    console.log(req.query.dateOne);
+  assignments.find({name: new RegExp(req.query.name, 'i'), date_completed: {$gte: req.query.dateOne, $lte: req.query.dateTwo}}, null,
       {
         sort:{//Sort by number DESC, can also use date, or any other fiel
         name: req.query.sortOrder

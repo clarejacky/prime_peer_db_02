@@ -1,3 +1,4 @@
+
 var monthNames = [
     "January", "February", "March",
     "April", "May", "June", "July",
@@ -12,6 +13,9 @@ var $editPanel;
 var $editorSubmit;
 
 var order;
+var name;
+var dateOne;
+var dateTwo;
 
 $(document).ready(function(){
     $container = $('.js-assignments');
@@ -196,20 +200,38 @@ function assignClicks(){
 
     $('body').on('click', '.btn-desc', function(){
          order = -1;
-        var name = $('#searchField').val();
+        name = $('#searchField').val();
         if(name ==""){
             name= {};
         }
-         sort(name, order);
+         //sort(name, order);
     });
 
     $('body').on('click', '.btn-asc', function(){
         order = 1;
-        var name = $('#searchField').val();
+        name = $('#searchField').val();
         if(name == ""){
             name ={};
         }
-        sort(name, order);
+        //sort(name, order);
+    });
+
+    $('body').on('click', '.search', function(){
+        dateOne = $('#date_start').val();
+        dateTwo = $('#date_end').val();
+        if(dateOne == "" & dateTwo == ""){
+            dateOne = '1900-01-01';
+            dateTwo = '2020-01-01';
+        } else if (dateTwo == "") {
+            dateTwo = '2020-01-01';
+        } else if (dateOne == "") {
+            dateOne = '1900-01-01';
+        }
+        console.log(dateOne);
+        console.log(dateTwo);
+        console.log(order);
+        console.log(name);
+        sort(name, order, dateOne, dateTwo);
     });
 }
 
@@ -231,12 +253,12 @@ function clearEditor(){
     $editPanel.slideUp().delay().removeClass('change');
 }
 
-function sort(name, order){
+function sort(name, order, dateOne, dateTwo){
     $.ajax({
         url: '/assignments/search',
         method: 'get',
         dataType: 'json',
-        data: {name:name, sortOrder: order},
+        data: {name:name, sortOrder: order, dateOne: dateOne, dateTwo: dateTwo},
         success: function(data, textStatus, jqXHR){
             // clear form
             clearData();
