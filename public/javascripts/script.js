@@ -201,28 +201,22 @@ function assignClicks(){
         updateData(data);
     });
 
-    $('body').on('click', '.btn-desc', function(){
-         order = -1;
-
-        if($('#searchField').val() != ""){
-            searchName = $('#searchField').val();
-        }
-         //sort(name, order);
-    });
-
-    $('body').on('click', '.btn-asc', function(){
-        order = 1;
-        if($('#searchField').val() != ""){
-            searchName= $('#searchField').val();
-        }
-        //sort(name, order);
-    });
+    //$('body').on('click', '.btn-desc', function(){
+    //     order = -1;
+    //
+    //     //sort(name, order);
+    //});
+    //
+    //$('body').on('click', '.btn-asc', function(){
+    //    order = 1;
+    //    //sort(name, order);
+    //});
 
     $('body').on('click', '.search', function(){
         $('body').on('click', '.btn-desc', function(){
             order = -1;
             if($('#searchField').val() != ""){
-                searchName= $('#searchField').val();
+                searchName = $('#searchField').val();
             }
             //sort(name, order);
         });
@@ -234,6 +228,10 @@ function assignClicks(){
             }
             //sort(name, order);
         });
+
+        if($('#searchField').val() != ""){
+            searchName= $('#searchField').val();
+        }
 
         dateOne = $('#date_start').val();
         dateTwo = $('#date_end').val();
