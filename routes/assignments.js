@@ -19,12 +19,12 @@ router.post('/', function(req, res, next) {
 });
 
 /* GET /assignments/id */
-router.get('/:id', function(req, res, next) {
-  assignments.findById(req.params.id, function (err, assignment) {
-    if (err) return next(err);
-    res.json(assignment);
-  });
-});
+//router.get('/:id', function(req, res, next) {
+//  assignments.findById(req.params.id, function (err, assignment) {
+//    if (err) return next(err);
+//    res.json(assignment);
+//  });
+//});
 
 /* PUT /assignments/:id */
 router.put('/:id', function(req, res, next) {
@@ -40,6 +40,19 @@ router.delete('/:id', function(req, res, next) {
     if (err) return next(err);
     res.json(assignment);
   });
+});
+
+router.get('/search', function(req, res, next) {
+  assignments.find({}, null,
+      {
+        sort:{//Sort by number DESC, can also use date, or any other fiel
+        name: req.query.sortOrder
+        }
+      }
+      ,function (err, assignment) {
+          if (err) return next(err);
+          res.json(assignment);
+      });
 });
 
 console.log('assignments route loaded');

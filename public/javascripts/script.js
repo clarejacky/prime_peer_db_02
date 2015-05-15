@@ -24,6 +24,8 @@ $(document).ready(function(){
 });
 
 function getData(){
+    $('.sort').append("<button class='btn-desc' data-id='-1'>Sort Descending</button><button class='btn-asc' data-id='1'>Sort Ascending</button>");
+
     $.ajax({
         url: '/assignments',
         data: {},
@@ -114,6 +116,7 @@ function processData(assignments){
 }
 
 function buildAndAppendData(id, name, score, datePicker, day, month, year){
+
     var section = $('<section/>')
         .attr('id', id)
         .attr('data-name', name)
@@ -189,6 +192,10 @@ function assignClicks(){
 
         updateData(data);
     });
+
+    $('body').on('click', '.btn-desc', function(){
+        sort();
+    });
 }
 
 function showEditor(id,name, score, date){
@@ -207,4 +214,26 @@ function clearEditor(){
     $scoreEditor.val('');
     $dateEditor.val('');
     $editPanel.slideUp().delay().removeClass('change');
+}
+
+function sort(){
+    $.ajax({
+        url: '/assignments/search',
+        method: 'get',
+        dataType: 'json',
+        data: {sortOrder: -1},
+        success: function(data, textStatus, jqXHR){
+            // clear form
+            clearData();
+            // get new data and update
+            processData(data);
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            console.log(textStatus,errorThrown);
+        },
+        complete: function(jqXHR, textStatus){
+            console.log("updateData() Ajax Get Complete:", textStatus);
+        }
+    });
+
 }
