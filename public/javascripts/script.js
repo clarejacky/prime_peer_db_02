@@ -13,7 +13,7 @@ var $editPanel;
 var $editorSubmit;
 
 var order;
-var name;
+var searchName;
 var dateOne;
 var dateTwo;
 
@@ -27,6 +27,8 @@ $(document).ready(function(){
 
     getData();
     assignClicks();
+
+    console.log('searchName', searchName)
 });
 
 function getData(){
@@ -37,6 +39,8 @@ function getData(){
         method: 'get',
         dataType: 'json',
         success: function(data, textStatus, jqXHR){
+
+            console.log(data);
             clearData();
             processData(data);
         },
@@ -98,7 +102,6 @@ function clearData(){
 }
 
 function processData(assignments){
-
     for(var i = 0; i< assignments.length; i++){
         var assignment = assignments[i];
 
@@ -200,23 +203,41 @@ function assignClicks(){
 
     $('body').on('click', '.btn-desc', function(){
          order = -1;
-        name = $('#searchField').val();
-        if(name ==""){
-            name= {};
+
+        if($('#searchField').val() != ""){
+            searchName = $('#searchField').val();
         }
          //sort(name, order);
     });
 
     $('body').on('click', '.btn-asc', function(){
         order = 1;
-        name = $('#searchField').val();
-        if(name == ""){
-            name ={};
+        if($('#searchField').val() != ""){
+            searchName= $('#searchField').val();
         }
         //sort(name, order);
     });
 
     $('body').on('click', '.search', function(){
+        $('body').on('click', '.btn-desc', function(){
+            order = -1;
+            if($('#searchField').val() != ""){
+                searchName= $('#searchField').val();
+            }
+            //sort(name, order);
+        });
+
+        $('body').on('click', '.btn-asc', function(){
+            order = 1;
+            if($('#searchField').val() != ""){
+                searchName= $('#searchField').val();
+            }
+            //sort(name, order);
+        });
+
+        if(order !== 1 || order !== -1) {
+            order = 1;
+        }
         dateOne = $('#date_start').val();
         dateTwo = $('#date_end').val();
         if(dateOne == "" & dateTwo == ""){
@@ -230,8 +251,8 @@ function assignClicks(){
         console.log(dateOne);
         console.log(dateTwo);
         console.log(order);
-        console.log(name);
-        sort(name, order, dateOne, dateTwo);
+        console.log(searchName);
+        sort(searchName, order, dateOne, dateTwo);
     });
 }
 
@@ -253,13 +274,18 @@ function clearEditor(){
     $editPanel.slideUp().delay().removeClass('change');
 }
 
-function sort(name, order, dateOne, dateTwo){
+function sort(searchName, order, dateOne, dateTwo){
+    var search = {sortOrder: order, dateOne: dateOne, dateTwo: dateTwo};
+    if (searchName)
+        search.name = searchName;
+
     $.ajax({
         url: '/assignments/search',
         method: 'get',
         dataType: 'json',
-        data: {name:name, sortOrder: order, dateOne: dateOne, dateTwo: dateTwo},
+        data: search,
         success: function(data, textStatus, jqXHR){
+            console.log(data);
             // clear form
             clearData();
             // get new data and update
@@ -269,7 +295,7 @@ function sort(name, order, dateOne, dateTwo){
             console.log(textStatus,errorThrown);
         },
         complete: function(jqXHR, textStatus){
-            console.log("updateData() Ajax Get Complete:", textStatus);
+            console.log("sort() Ajax Get Complete:", textStatus);
         }
     });
 
